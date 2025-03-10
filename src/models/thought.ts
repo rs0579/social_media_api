@@ -1,11 +1,12 @@
 import {Schema, model, Document} from 'mongoose';
+import reactionSchema from './reactions.js'; 
 
 
 interface IThought extends Document {
   thoughtText : string;
   createdAt : Date;
   username : string;
-  reactions : Reaction[];
+  reactions : reactionSchema[]; // Use the reactionSchema to validate data - IM NOT SURE IF THIS IS CORRECT
 }
 
 const thoughtSchema = new Schema<IThought>({
@@ -20,3 +21,13 @@ const thoughtSchema = new Schema<IThought>({
         default: Date.now,
         get: (createdAtVal: Date) => dateFormat(createdAtVal)  // Use a getter method to format the timestamp on query
     },
+    username: {
+        type: String,
+        required: true
+    },
+    reactions: [reactionSchema]
+});
+
+const Thought = model<IThought>('Thought', thoughtSchema);
+
+export default Thought;
