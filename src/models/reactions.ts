@@ -1,9 +1,10 @@
-import {Schema, Document} from 'mongoose';
+import {Schema, Document, ObjectId, Types} from 'mongoose';
+
 interface IReaction extends Document {
-    reactionId: id;
+    reactionId: ObjectId;
     reactionBody: string;
     username: string;
-    createdAt: Date;
+    createdAt?: Date;
 }
 
 const reactionSchema = new Schema<IReaction>({
@@ -23,8 +24,15 @@ const reactionSchema = new Schema<IReaction>({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: (createdAtVal: Date) => dateFormat(createdAtVal)
+        get: (timestamp: Date) => { timestamp.toDateString().split('T')[0]}
     }
-});
+},
+//QUESTION FOR TUTOR: WHY DID I HAVE TO MAKE A NEW OBJECT FOR THIS TO WORK?
+{
+    toJSON: {
+        getters: true
+    }
+}
+);
 
 export default reactionSchema;
