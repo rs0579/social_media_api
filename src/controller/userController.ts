@@ -42,6 +42,7 @@ export const createUser = async (req: Request, res: Response) => {
 }
 export const deleteUser = async (req: Request, res: Response) => {
     try {
+        //YOU HAVE TO USE AN ID BECAUSE IT IS GUARANTEED TO BE UNIQUE - WHEN TARGETING ID, YOU NEED THE REQ.PARAMS.ID 
         const user = await User.findByIdAndDelete(req.params.userId);
         if (!user) {
             res.status(404).json({ message: 'No user found with this id!' });
