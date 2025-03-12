@@ -67,3 +67,20 @@ export const removeFriendById = async (req: Request, res: Response) => {
         return res.status(500).json(err);
     }
 }
+export const addFriend = async (req: Request, res: Response) => {
+    console.log('You\'re adding a new friend!');
+    console.log(req.body);
+    try{
+        const user = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.body.friendId } },
+            { runValidators: true, new: true }
+        )
+        if (!user) {
+            return res.status(404).json({ message: 'No user found with this id!' });
+        }
+        return res.json(user);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+}
