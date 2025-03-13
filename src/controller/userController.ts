@@ -24,12 +24,12 @@ export const updateUser = async (req: Request, res: Response) => {
     try {
         const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
         if (!user) {
-            res.status(404).json({ message: 'No user found with this id!' });
+            return res.status(404).json({ message: 'No user found with this id!' });
 
         }
-        res.json(user);
+        return res.json(user);
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 export const createUser = async (req: Request, res: Response) => {
@@ -45,11 +45,11 @@ export const deleteUser = async (req: Request, res: Response) => {
         //YOU HAVE TO USE AN ID BECAUSE IT IS GUARANTEED TO BE UNIQUE - WHEN TARGETING ID, YOU NEED THE REQ.PARAMS.ID 
         const user = await User.findByIdAndDelete(req.params.userId);
         if (!user) {
-            res.status(404).json({ message: 'No user found with this id!' });
+           return res.status(404).json({ message: 'No user found with this id!' });
         }
-        res.json(user);
+        return res.json(user);
     } catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 export const removeFriendById = async (req: Request, res: Response) => {
@@ -73,7 +73,7 @@ export const addFriend = async (req: Request, res: Response) => {
     try{
         const user = await User.findOneAndUpdate(
             { _id: req.params.userId },
-            { $addToSet: { friends: req.body.friendId } },
+            { $addToSet: { friends: req.params.friendId } },
             { runValidators: true, new: true }
         )
         if (!user) {

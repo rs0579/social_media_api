@@ -4,7 +4,7 @@ import {getUsers, getUserById, createUser, updateUser, deleteUser, addFriend, re
 const router = Router();
 
 router.route('/').get(getUsers).post(createUser);
-router.route('/:userid').get(getUserById).put(updateUser).delete(deleteUser);
-router.route('/:userid/friends/:friendid').post(addFriend).delete(removeFriendById);
+router.route('/:userId').get(getUserById).put(updateUser).delete(deleteUser);
+router.route('/:userId/friends/:friendId').post(addFriend).delete(removeFriendById);
 
 export {router as userRoutes}

@@ -4,7 +4,7 @@ import { getThoughts, createThought, getThoughtById, updateThoughtById, deleteTh
 const router = Router();
 
 router.route('/').get(getThoughts).post(createThought);
-router.route('/:thoughtid').get(getThoughtById).put(updateThoughtById).delete(deleteThoughtById);
-router.route('/:thoughtid/reactions').post(createReaction).delete(deleteReaction);
+router.route('/:thoughtId').get(getThoughtById).put(updateThoughtById).delete(deleteThoughtById);
+router.route('/:thoughtId/reactions').post(createReaction).delete(deleteReaction);
 
 export {router as thoughtRoutes}

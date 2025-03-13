@@ -1,4 +1,5 @@
 import Thought from '../models/thought.js';
+import User from '../models/user.js';
 import { Request, Response } from 'express';
 
 export const getThoughts =async (_req: Request, res: Response) => {
@@ -14,9 +15,9 @@ export const createThought = async (req: Request, res: Response) => {
     try {
         const thoughtText = await Thought.create(req.body
             //LINES 17 AND 18 ARE NOT NEEDED** THEY ARE SUPPOISED PUSH THE CREATED THOUGHT'S ID TO THE USER'S THOUGHTS ARRAY.
-            // { users: req.params.userId},
-            // {$push: {users: req.params.userId}}
         );
+        await User.findOneAndUpdate(req.body.userId, { $push: { thoughts: thoughtText._id } }, { new: true });
+
         res.json(thoughtText);
     } catch (err) {
         res.status(500).json(err);
@@ -36,7 +37,7 @@ export const getThoughtById = async (req: Request, res: Response) => {
 export const updateThoughtById = async (req: Request, res: Response) => {
     //I DON'T KNOW IF I SHOULD MAKE A NEW VARIABLE TO HOLD THE THOUGHT ID IN THIS LOCAL SCOPE
     try {
-        const thoughtText = await Thought.findByIdAndUpdate(req.params.thoughtId);
+        const thoughtText = await Thought.findByIdAndUpdate(req.params.thoughtId, req.body, { new: true });
         res.json(thoughtText);
     }
     catch (err) {
@@ -73,7 +74,7 @@ export const deleteThoughtById = async (req: Request, res: Response) => {
         try{
             const thought = await Thought.findOneAndUpdate(
                 { _id: req.params.thoughtId },
-                { $pull: { reactions: {reactionId: req.params.reactionId} } },
+                { $pull: { reactions: {reactionId: req.body.reactionId} } },
                 { new: true }
             );
             if (!thought) {
@@ -85,14 +86,3 @@ export const deleteThoughtById = async (req: Request, res: Response) => {
             return res.status(500).json(err);
         }
     }
-    
-    // try {
-    //     const reactionBody = await Thought.create(
-    //         { _id: req.params.thoughtId },
-    //         { $push: { reactions: req.body } },
-    //         { new: true }
-    //     );
-    //     res.json(reactionBody);
-    // } catch (err) {
-    //     res.status(500).json(err);
-    //
