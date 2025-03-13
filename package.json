@@ -1,12 +1,12 @@
 {
-  "name": "15-ins_models-instance-methods",
+  "name": "social-media-app",
   "version": "1.0.0",
   "description": "",
-  "main": "Department.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "build": "npx tsc",
-    "start": "npm run build && node dist/models/Department.js",
+    "start": "npm run build && node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

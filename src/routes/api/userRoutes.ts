@@ -1,10 +1,10 @@
 import {Router} from 'express';
-import {getUsers, getUserById, createUser, updateUser, deleteUser, addFriend, removeFriendById} from '../../controller/userController';
+import {getUsers, getUserById, createUser, updateUser, deleteUser, addFriend, removeFriendById} from '../../controller/userController.js';
 
 const router = Router();
 
 router.route('/').get(getUsers).post(createUser);
-router.route('/:userId').get(getUserById).put(updateUser).delete(deleteUser);
-router.route('/:userId/friends/:friendId').post(addFriend).delete(removeFriendById);
+router.route('/:userid').get(getUserById).put(updateUser).delete(deleteUser);
+router.route('/:userid/friends/:friendid').post(addFriend).delete(removeFriendById);
 
 export {router as userRoutes}
